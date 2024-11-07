@@ -18,5 +18,8 @@ func main() {
     defer db.Close()
 
     fmt.Println("Aplicación iniciada correctamente")
+
+    // Create tables
+    config.CreateTables(db)
 }
 
