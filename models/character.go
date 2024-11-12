@@ -43,7 +43,6 @@ func GetAll(db *sql.DB) ([]Character, error) {
 }
 
 func (c *Character) Update(db *sql.DB) error {
-    // Verifica si el personaje existe en la base de datos
     var exists bool
     queryCheck := "SELECT EXISTS (SELECT 1 FROM characters WHERE id = $1)"
     err := db.QueryRow(queryCheck, c.ID).Scan(&exists)
@@ -54,14 +53,12 @@ func (c *Character) Update(db *sql.DB) error {
         return errors.New("el personaje no existe")
     }
 
-    // Si existe, procede a la actualización
     query := "UPDATE characters SET name = $1, backstory = $2, image = $3 WHERE id = $4"
     _, err = db.Exec(query, c.Name, c.Backstory, c.Image, c.ID)
     return err
 }
 
 func DeleteCharacter(db *sql.DB, id int) error {
-    // Verifica si el personaje existe en la base de datos
     var exists bool
     queryCheck := "SELECT EXISTS (SELECT 1 FROM characters WHERE id = $1)"
     err := db.QueryRow(queryCheck, id).Scan(&exists)
@@ -72,7 +69,6 @@ func DeleteCharacter(db *sql.DB, id int) error {
         return errors.New("el personaje no existe")
     }
 
-    // Si existe, procede a la eliminación
     query := "DELETE FROM characters WHERE id = $1"
     _, err = db.Exec(query, id)
     return err
